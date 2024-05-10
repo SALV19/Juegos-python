@@ -24,16 +24,21 @@ def grid():
 
 def drawx(x, y):
     # Dibujar pieza del jugador X
-    line(x - 70, y - 70, x + 70, y + 70)
-    line(x - 70, y + 70, x + 70, y - 70)
+    size = 40
+    color("red")
+    line(x - size, y - size, x + size, y + size)
+    line(x - size, y + size, x + size, y - size)
 
 
 def drawo(x, y):
     # Dibujar pieza del jugador O
+    radio = 50
     up()
-    goto(x, y - 62)
+    goto(x, y - radio)
     down()
-    circle(62)
+    color("blue")
+    circle(radio)
+
 
 
 def floor(value):
