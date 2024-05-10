@@ -83,3 +83,16 @@ python --version
 1. Se agregó un mensaje de "Ganaste!!!".
 1. Se validó que cuando el usuario gana no se puedan dar más taps.
 1. Se corrigió el código usando el formato PEP8, con ayuda de flake8.
+
+## PAC-MAN.
+
+##### Codigo obtenido de:
+
+##### PAC-MAN  — Free Python Games 2.5.3 documentation. (2017). Grantjenks.com. https://grantjenks.com/docs/freegames/pacman.html
+
+## Cambios realizados
+1. Se adapto al formato PeP8.
+2. Se cambio el mapa.
+3. Los Fantasmas son más rápidos.
+4. Comentarios en español
+
