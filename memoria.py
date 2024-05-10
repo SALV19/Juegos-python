@@ -1,66 +1,81 @@
-"""Memory, puzzle game of number pairs.
+"""Memory, juego de rompecabezas de pares de números.
 
-Exercises:
+Ejercicios:
 
-1. Count and print how many taps occur.
-2. Decrease the number of tiles to a 4x4 grid.
-3. Detect when all tiles are revealed.
-4. Center single-digit tile.
-5. Use letters instead of tiles.
+1. Contar e imprimir cuántos toques ocurren.
+2. Disminuir el número de fichas a una cuadrícula de 4x4.
+3. Detectar cuando todas las fichas están reveladas.
+4. Centrar la ficha de un solo dígito.
+5. Usar letras en lugar de fichas.
 """
 
-from random import *
-from turtle import *
+import random as rand
+import turtle as t
 
 from freegames import path
 
+# Cargar imagen del memoria (car.gif)
 car = path('car.gif')
-# Establecer el título de la ventana de la aplicación
-title("Memoria")
+
+# Establecer el título de la ventana
+t.title("Memoria")
+
+# Crear una lista de fichas con pares de números (de 0 a 31)
 tiles = list(range(32)) * 2
+
+# Estado inicial del juego: todas las fichas ocultas
 state = {'mark': None}
+
+# Crear una lista para rastrear si cada ficha está oculta o revelada
 hide = [True] * 64
 
 
+# Función para dibujar un cuadrado blanco con contorno negro en (x, y)
 def square(x, y):
-    """Draw white square with black outline at (x, y)."""
-    up()
-    goto(x, y)
-    down()
-    color('black', 'white')
-    begin_fill()
+    t.up()
+    t.goto(x, y)
+    t.down()
+    t.color('black', 'white')
+    t.begin_fill()
     for count in range(4):
-        forward(50)
-        left(90)
-    end_fill()
+        t.forward(50)
+        t.left(90)
+    t.end_fill()
 
 
+# Función para convertir coordenadas (x, y) a índice de fichas
 def index(x, y):
-    """Convert (x, y) coordinates to tiles index."""
     return int((x + 200) // 50 + ((y + 200) // 50) * 8)
 
 
+# Función para convertir contador de fichas a coordenadas (x, y)
 def xy(count):
-    """Convert tiles count to (x, y) coordinates."""
     return (count % 8) * 50 - 200, (count // 8) * 50 - 200
 
 
-tap_count = 0  # Inicializamos el contador de taps
-juego_terminado = True  # Inicializamos la variable que indica si el juego ha terminado
+# Inicializamos el contador de taps
+tap_count = 0
 
+# Inicializamos la variable que indica si el juego ha terminado
+juego_terminado = True
+
+
+# Función para manejar toques en la pantalla
 def tap(x, y):
-    global tap_count, juego_terminado  # Agregar la variable juego_terminado como global
+    # Agregar la variable juego_terminado como global
+    global tap_count, juego_terminado
 
-    if all(hide[i] == False for i in range(len(hide))):
+    # Verificar si el juego ha terminado
+    if all(hide[i] is False for i in range(len(hide))):
         juego_terminado = False
     if not juego_terminado:
-        return  # Si el juego no está activo, no procesar el tap
+        return
 
-    # Obtener las coordenadas del centro de la casilla más cercana al punto (x, y)
-    spot_x = int(x // 50) * 50 + 25  # Calcula la coordenada x del centro de la casilla
-    spot_y = int(y // 50) * 50 + 25  # Calcula la coordenada y del centro de la casilla
+    # Obtener las coordenadas del cuadro más cercano al punto (x, y)
+    spot_x = int(x // 50) * 50 + 25
+    spot_y = int(y // 50) * 50 + 25
 
-    # Verificar si el punto (x, y) está dentro del área visible de la pantalla (410x410)
+    # Verificar si el punto (x, y) está dentro del área de juego
     if (-205 <= spot_x <= 205) and (-205 <= spot_y <= 205):
         spot = index(spot_x, spot_y)
         mark = state['mark']
@@ -72,7 +87,6 @@ def tap(x, y):
             hide[mark] = False
             state['mark'] = None
 
-        # Incrementamos el contador de taps después de procesar el tap
         tap_count += 1
 
     else:
@@ -80,12 +94,12 @@ def tap(x, y):
         pass
 
 
+# Función para dibujar la imagen y las fichas
 def draw():
-    """Draw image and tiles."""
-    clear()
-    goto(0, 0)
-    shape(car)
-    stamp()
+    t.clear()
+    t.goto(0, 0)
+    t.shape(car)
+    t.stamp()
 
     for count in range(64):
         if hide[count]:
@@ -96,41 +110,56 @@ def draw():
 
     if mark is not None and hide[mark]:
         x, y = xy(mark)
-        up()
-        goto(x + 2, y)
-        color('black')
-        write(tiles[mark], font=('Arial', 30, 'normal'))
+        t.up()
+        t.goto(x + 2, y)
+        t.color('black')
+        t.write(tiles[mark], font=('Arial', 30, 'normal'))
 
     # Verificar si todas las fichas están reveladas
-    if all(hide[i] == False for i in range(len(hide))):
+    if all(hide[i] is False for i in range(len(hide))):
         mensaje_ganaste()
 
-    update()
+    t.update()
     update_tap_count()
-    ontimer(draw, 100)
+    t.ontimer(draw, 100)
 
 
+# Función para actualizar el contador de taps en la pantalla
 def update_tap_count():
-    """Update tap count display on screen."""
-    penup()
-    goto(-180, 210)
-    color('black')
-    write(f"Taps: {tap_count}", font=('Arial', 20, 'normal'))
+    t.penup()
+    t.goto(-180, 210)
+    t.color('black')
+    t.write(f"Taps: {tap_count}", font=('Arial', 20, 'normal'))
 
 
+# Función para mostrar mensaje de 'Ganaste!!!'
 def mensaje_ganaste():
-    """Mostrar mensaje de 'Ganaste!!!'."""
-    penup()
-    goto(0, 0)
-    color('green')
-    write("Ganaste!!!", align='center', font=('Arial', 30, 'normal'))
+    t.penup()
+    t.goto(0, 0)
+    t.color('green')
+    t.write("Ganaste!!!", align='center', font=('Arial', 30, 'normal'))
 
 
-shuffle(tiles)
-setup(500, 500, 370, 0)
-addshape(car)
-hideturtle()
-tracer(False)
-onscreenclick(tap)
+# Mezclar las fichas
+rand.shuffle(tiles)
+
+# Inicializar la ventana de juego
+t.setup(500, 500, 370, 0)
+
+# Configurar la imagen del carro
+t.addshape(car)
+
+# Ocultar la tortuga y desactivar la animación
+t.hideturtle()
+
+# Desactivar el rastreo de la tortuga
+t.tracer(False)
+
+# Asignar la función tap al evento de toque en la pantalla
+t.onscreenclick(tap)
+
+# Dibujar la pantalla
 draw()
-done()
+
+# Mantener la ventana abierta
+t.done()
