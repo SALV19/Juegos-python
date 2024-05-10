@@ -15,6 +15,8 @@ from turtle import *
 from freegames import path
 
 car = path('car.gif')
+# Establecer el título de la ventana de la aplicación
+title("Memoria")
 tiles = list(range(32)) * 2
 state = {'mark': None}
 hide = [True] * 64
@@ -44,8 +46,15 @@ def xy(count):
 
 
 tap_count = 0  # Inicializamos el contador de taps
+juego_terminado = True  # Inicializamos la variable que indica si el juego ha terminado
+
 def tap(x, y):
-    global tap_count  # Para modificar la variable global tap_count
+    global tap_count, juego_terminado  # Agregar la variable juego_terminado como global
+
+    if all(hide[i] == False for i in range(len(hide))):
+        juego_terminado = False
+    if not juego_terminado:
+        return  # Si el juego no está activo, no procesar el tap
 
     # Obtener las coordenadas del centro de la casilla más cercana al punto (x, y)
     spot_x = int(x // 50) * 50 + 25  # Calcula la coordenada x del centro de la casilla
@@ -65,6 +74,7 @@ def tap(x, y):
 
         # Incrementamos el contador de taps después de procesar el tap
         tap_count += 1
+
     else:
         # El tap está fuera del área visible de la pantalla, no hacer nada
         pass
@@ -91,6 +101,10 @@ def draw():
         color('black')
         write(tiles[mark], font=('Arial', 30, 'normal'))
 
+    # Verificar si todas las fichas están reveladas
+    if all(hide[i] == False for i in range(len(hide))):
+        mensaje_ganaste()
+
     update()
     update_tap_count()
     ontimer(draw, 100)
@@ -102,6 +116,14 @@ def update_tap_count():
     goto(-180, 210)
     color('black')
     write(f"Taps: {tap_count}", font=('Arial', 20, 'normal'))
+
+
+def mensaje_ganaste():
+    """Mostrar mensaje de 'Ganaste!!!'."""
+    penup()
+    goto(0, 0)
+    color('green')
+    write("Ganaste!!!", align='center', font=('Arial', 30, 'normal'))
 
 
 shuffle(tiles)
