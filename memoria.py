@@ -43,17 +43,31 @@ def xy(count):
     return (count % 8) * 50 - 200, (count // 8) * 50 - 200
 
 
+tap_count = 0  # Inicializamos el contador de taps
 def tap(x, y):
-    """Update mark and hidden tiles based on tap."""
-    spot = index(x, y)
-    mark = state['mark']
+    global tap_count  # Para modificar la variable global tap_count
 
-    if mark is None or mark == spot or tiles[mark] != tiles[spot]:
-        state['mark'] = spot
+    # Obtener las coordenadas del centro de la casilla más cercana al punto (x, y)
+    spot_x = int(x // 50) * 50 + 25  # Calcula la coordenada x del centro de la casilla
+    spot_y = int(y // 50) * 50 + 25  # Calcula la coordenada y del centro de la casilla
+
+    # Verificar si el punto (x, y) está dentro del área visible de la pantalla (410x410)
+    if (-205 <= spot_x <= 205) and (-205 <= spot_y <= 205):
+        spot = index(spot_x, spot_y)
+        mark = state['mark']
+
+        if mark is None or mark == spot or tiles[mark] != tiles[spot]:
+            state['mark'] = spot
+        else:
+            hide[spot] = False
+            hide[mark] = False
+            state['mark'] = None
+
+        # Incrementamos el contador de taps después de procesar el tap
+        tap_count += 1
     else:
-        hide[spot] = False
-        hide[mark] = False
-        state['mark'] = None
+        # El tap está fuera del área visible de la pantalla, no hacer nada
+        pass
 
 
 def draw():
@@ -78,11 +92,20 @@ def draw():
         write(tiles[mark], font=('Arial', 30, 'normal'))
 
     update()
+    update_tap_count()
     ontimer(draw, 100)
 
 
+def update_tap_count():
+    """Update tap count display on screen."""
+    penup()
+    goto(-180, 210)
+    color('black')
+    write(f"Taps: {tap_count}", font=('Arial', 20, 'normal'))
+
+
 shuffle(tiles)
-setup(420, 420, 370, 0)
+setup(500, 500, 370, 0)
 addshape(car)
 hideturtle()
 tracer(False)
