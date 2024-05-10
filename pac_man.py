@@ -1,17 +1,8 @@
-"""Pacman, classic arcade game.
-
-Exercises
-
-1. Change the board.
-2. Change the number of ghosts.
-3. Change where pacman starts.
-4. Make the ghosts faster/slower.
-5. Make the ghosts smarter.
-"""
-
 from random import choice
-from turtle import *
-
+from turtle import (
+    Turtle, bgcolor, clear, done, goto, hideturtle, listen, ontimer, setup,
+    tracer, up, update, dot, onkey
+)
 from freegames import floor, vector
 
 state = {'score': 0}
@@ -25,6 +16,7 @@ ghosts = [
     [vector(100, 160), vector(0, -5)],
     [vector(100, -160), vector(-5, 0)],
 ]
+
 # fmt: off
 tiles = [
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
