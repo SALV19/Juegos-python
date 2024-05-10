@@ -20,7 +20,18 @@ def grid():
     line(-200, -70, 200, -70)
     line(-200, 70, 200, 70)
 
-
+def actualizar_tablero(x, y, tablero):
+    x_0 = int((x + 140) / 140)
+    y_0 = int((y + 140) / 140)
+    tablero[x_0][y_0] = 1
+    return tablero
+def validar_tablero(x, y, tablero):
+    x_0 = int((x + 140) / 140)
+    y_0 = int((y + 140) / 140)
+    if (tablero[x_0][y_0] != 1):
+        return True
+    else:
+        return False
 
 def drawx(x, y):
     # Dibujar pieza del jugador X
@@ -49,24 +60,28 @@ def floor(value):
 
 state = {'player': 0}
 players = [drawx, drawo]
-
+tablero = [
+            [0, 0, 0],
+            [0, 0, 0],
+            [0, 0, 0]
+            ]
 
 def tap(x, y):
     """Draw X or O in tapped square."""
+    global tablero
+
     x = floor(x)
     y = floor(y)
-
-    print(f"X: {x}, Y: {y}")
-
     player = state['player']
     draw = players[player]
 
-    # Actualizar pantalla / buffer
-    draw(x, y)
-    update()
+    if(validar_tablero(x, y, tablero)):
+        tablero = actualizar_tablero(x, y, tablero)
+        draw(x, y)
+        update()
 
-    # Intercambiar jugador
-    state['player'] = not player
+        # Intercambiar jugador
+        state['player'] = not player
 
 
 setup(420, 420)
