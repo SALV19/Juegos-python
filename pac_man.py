@@ -4,6 +4,7 @@ from turtle import (
     tracer, up, update, dot, onkey
 )
 from freegames import floor, vector
+"Describe las variables principales y sus valores"
 
 state = {'score': 0}
 path = Turtle(visible=False)
@@ -18,6 +19,7 @@ ghosts = [
 ]
 
 # fmt: off
+"Forma del mapa"
 tiles = [
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     0, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0,
@@ -44,7 +46,7 @@ tiles = [
 
 
 def square(x, y):
-    """Draw square using path at (x, y)."""
+    "Creacion de elementos graficos del camino del juego via cordenadas x,y"
     path.up()
     path.goto(x, y)
     path.down()
@@ -58,7 +60,7 @@ def square(x, y):
 
 
 def offset(point):
-    """Return offset of point in tiles."""
+    "Sistema de puntos al 'comer' los cuadros"
     x = (floor(point.x, 20) + 200) / 20
     y = (180 - floor(point.y, 20)) / 20
     index = int(x + y * 20)
@@ -66,7 +68,7 @@ def offset(point):
 
 
 def valid(point):
-    """Return True if point is valid in tiles."""
+    "Ferifica si el punto es valido"
     index = offset(point)
 
     if tiles[index] == 0:
@@ -81,7 +83,7 @@ def valid(point):
 
 
 def world():
-    """Draw world using path."""
+    "en base al mapeado se crea el mapa"
     bgcolor('black')
     path.color('blue')
 
@@ -100,7 +102,7 @@ def world():
 
 
 def move():
-    """Move pacman and all ghosts."""
+    "Determina el movimiento de Pacman y la CPU"
     writer.undo()
     writer.write(state['score'])
 
@@ -148,7 +150,7 @@ def move():
 
     ontimer(move, 100)
 
-
+"cambia la direcion de PACMAN y verifica si es valida"
 def change(x, y):
     """Change pacman aim if valid."""
     if valid(pacman + vector(x, y)):
