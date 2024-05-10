@@ -14,3 +14,16 @@ Pac-man, Tic-Tac-Toe, Memoria
 1. Se les cambió de color a las X y O a rojo y azul respectivamente.
 1. Se valida la casilla antes de dibujar la siguiente ficha. 
 1. Se corrigió el código siguiendo el formato Pep8
+
+
+## PAC-MAN.
+
+##### Codigo obtenido de:
+
+##### PAC-MAN  — Free Python Games 2.5.3 documentation. (2017). Grantjenks.com. https://grantjenks.com/docs/freegames/pacman.html
+
+## Cambios realizados
+1.Se adapto al formato PeP8
+2.Se cambio el mapa
+3.Los Fantasmas son más rápidos
+4.Comentarios en español
