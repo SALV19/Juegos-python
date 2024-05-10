@@ -4,7 +4,7 @@ from turtle import (
     tracer, up, update, dot, onkey
 )
 from freegames import floor, vector
-"Describe las variables principales y sus valores"
+#Describe las variables principales y sus valores
 
 state = {'score': 0}
 path = Turtle(visible=False)
@@ -12,16 +12,16 @@ writer = Turtle(visible=False)
 aim = vector(5, 0)
 pacman = vector(-40, -80)
 ghosts = [
-    "Incrementado en 0.5"
-    [vector(-180, 160), vector(5 + 0.5, 0)],  
+    #Incrementado en 0.5
+    [vector(-180, 160), vector(5 + 0.5, 0)],
     [vector(-180, -160), vector(0, 5 + 0.5)],
     [vector(100, 160), vector(0, -5 - 0.5)],
-    [vector(100, -160), vector(-5 - 0.5, 0)],  
+    [vector(100, -160), vector(-5 - 0.5, 0)],
 ]
 
 # fmt: off
-"Forma del mapa"
-"Nuevo formato de mapa inspirado en Ms Pac-Man"
+#Forma del mapa"
+#Nuevo formato de mapa inspirado en Ms Pac-Man"
 tiles = [
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0,
@@ -44,7 +44,7 @@ tiles = [
 
 
 def square(x, y):
-    "Creacion de elementos graficos del camino del juego via cordenadas x,y"
+    #Creacion de elementos graficos del camino del juego via cordenadas x,y
     path.up()
     path.goto(x, y)
     path.down()
@@ -58,7 +58,7 @@ def square(x, y):
 
 
 def offset(point):
-    "Sistema de puntos al 'comer' los cuadros"
+    #Sistema de puntos al 'comer' los cuadros
     x = (floor(point.x, 20) + 200) / 20
     y = (180 - floor(point.y, 20)) / 20
     index = int(x + y * 20)
@@ -66,7 +66,7 @@ def offset(point):
 
 
 def valid(point):
-    "Ferifica si el punto es valido"
+    #Ferifica si el punto es valido
     index = offset(point)
 
     if tiles[index] == 0:
@@ -81,7 +81,7 @@ def valid(point):
 
 
 def world():
-    "en base al mapeado se crea el mapa"
+    #en base al mapeado se crea el mapa
     bgcolor('black')
     path.color('blue')
 
@@ -100,7 +100,7 @@ def world():
 
 
 def move():
-    "Determina el movimiento de Pacman y la CPU"
+    #Determina el movimiento de Pacman y la CPU#
     writer.undo()
     writer.write(state['score'])
 
@@ -127,10 +127,11 @@ def move():
             point.move(course)
         else:
             options = [
-                vector(5 + 0.5, 0),  "Incrementado en 0.5"
-                vector(-5 - 0.5, 0),  "Incrementado en 0.5"
-                vector(0, 5 + 0.5),  "Incrementado en 0.5"
-                vector(0, -5 - 0.5),  "Incrementado en 0.5"
+            #Incremento 0.5
+            vector(5 + 0.5, 0),
+            vector(-5 - 0.5, 0),
+            vector(0, 5 + 0.5),
+            vector(0, -5 - 0.5),
             ]
             plan = choice(options)
             course.x = plan.x
@@ -147,9 +148,10 @@ def move():
             return
 
     ontimer(move, 100 - 50)
-    "se reduce para mayor velocidad"
-    
-"cambia la direcion de PACMAN y verifica si es valida"
+ #se reduce para mayor velocidad
+
+#cambia la direcion de PACMAN y verifica si es valida
+
 def change(x, y):
     if valid(pacman + vector(x, y)):
         aim.x = x
