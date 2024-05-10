@@ -1,4 +1,5 @@
-"""Tic Tac Toe
+"""
+Tic Tac Toe
 
 Exercises
 
@@ -9,35 +10,36 @@ Exercises
 """
 
 from turtle import *
-
 from freegames import line
 
 
 def grid():
-    """Draw tic-tac-toe grid."""
-    line(-67, 200, -67, -200)
-    line(67, 200, 67, -200)
-    line(-200, -67, 200, -67)
-    line(-200, 67, 200, 67)
+    # Dibujar el tablero mediante líneas rectas
+    line(70, 200, 70, -200)
+    line(-70, 200, -70, -200)
+    line(-200, -70, 200, -70)
+    line(-200, 70, 200, 70)
+
 
 
 def drawx(x, y):
-    """Draw X player."""
-    line(x, y, x + 133, y + 133)
-    line(x, y + 133, x + 133, y)
+    # Dibujar pieza del jugador X
+    line(x - 70, y - 70, x + 70, y + 70)
+    line(x - 70, y + 70, x + 70, y - 70)
 
 
 def drawo(x, y):
-    """Draw O player."""
+    # Dibujar pieza del jugador O
     up()
-    goto(x + 67, y + 5)
+    goto(x, y - 62)
     down()
     circle(62)
 
 
 def floor(value):
-    """Round value down to grid with square size 133."""
-    return ((value + 200) // 133) * 133 - 200
+    # Redondear valor del click con 130 para centrar la posición a dibujar
+    # return ((value + 200) // 130) * 130 - 200
+    return ((value + 200) // 130) * 140 - 140
 
 
 state = {'player': 0}
@@ -48,14 +50,21 @@ def tap(x, y):
     """Draw X or O in tapped square."""
     x = floor(x)
     y = floor(y)
+
+    print(f"X: {x}, Y: {y}")
+
     player = state['player']
     draw = players[player]
+
+    # Actualizar pantalla / buffer
     draw(x, y)
     update()
+
+    # Intercambiar jugador
     state['player'] = not player
 
 
-setup(420, 420, 370, 0)
+setup(420, 420)
 hideturtle()
 tracer(False)
 grid()
