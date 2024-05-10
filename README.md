@@ -23,7 +23,7 @@ Pac-man, Tic-Tac-Toe, Memoria
 ##### PAC-MAN  — Free Python Games 2.5.3 documentation. (2017). Grantjenks.com. https://grantjenks.com/docs/freegames/pacman.html
 
 ## Cambios realizados
-1.Se adapto al formato PeP8
-2.Se cambio el mapa
-3.Los Fantasmas son más rápidos
-4.Comentarios en español
+1. Se adapto al formato PeP8.
+2. Se cambio el mapa.
+3. Los Fantasmas son más rápidos.
+4. Comentarios en español
