@@ -12,11 +12,11 @@ writer = Turtle(visible=False)
 aim = vector(5, 0)
 pacman = vector(-40, -80)
 ghosts = [
-    #Incrementado en 0.5
-    [vector(-180, 160), vector(5 + 0.5, 0)],
-    [vector(-180, -160), vector(0, 5 + 0.5)],
-    [vector(100, 160), vector(0, -5 - 0.5)],
-    [vector(100, -160), vector(-5 - 0.5, 0)],
+    #Incrementado en 6
+    [vector(-180, 160), vector(6, 0)],
+    [vector(-180, -160), vector(0, 6)],
+    [vector(100, 160), vector(0, -6)],
+    [vector(100, -160), vector(-6, 0)],
 ]
 
 # fmt: off
@@ -66,7 +66,7 @@ def offset(point):
 
 
 def valid(point):
-    #Ferifica si el punto es valido
+    #Verifica si el punto es valido
     index = offset(point)
 
     if tiles[index] == 0:
@@ -127,11 +127,11 @@ def move():
             point.move(course)
         else:
             options = [
-            #Incremento 0.5
-            vector(5 + 0.5, 0),
-            vector(-5 - 0.5, 0),
-            vector(0, 5 + 0.5),
-            vector(0, -5 - 0.5),
+            #Incremento 6
+            vector(6, 0),
+            vector(-6, 0),
+            vector(0, 6),
+            vector(0, -6),
             ]
             plan = choice(options)
             course.x = plan.x
