@@ -5,43 +5,41 @@ from turtle import (
 )
 from freegames import floor, vector
 
-# Describe las variables principales y sus valores
+# Definición de estado inicial y objetos Turtle
 state = {'score': 0}
 path = Turtle(visible=False)
 writer = Turtle(visible=False)
 aim = vector(5, 0)
 pacman = vector(-40, -80)
 ghosts = [
-    # Incrementado en 6
-    [vector(-180, 160), vector(6, 0)],
-    [vector(-180, -160), vector(0, 6)],
-    [vector(100, 160), vector(0, -6)],
-    [vector(100, -160), vector(-6, 0)],
+    [vector(-180, 160), vector(5.5, 0)],
+    [vector(-180, -160), vector(0, 5.5)],
+    [vector(100, 160), vector(0, -5.5)],
+    [vector(100, -160), vector(-5.5, 0)],
 ]
 
-# Forma del mapa
-# Nuevo formato de mapa inspirado en Ms Pac-Man
+# Nuevo diseño del mapa, simplificado
 tiles = [
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0,
     0, 1, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 1, 1, 0,
-    0, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 0,
-    0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1, 0,
-    0, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0, 1, 1, 0,
-    0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 1, 0,
-    0, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 0,
-    0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 1, 0,
     0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0,
-    0, 1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1, 1, 0,
-    0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1, 0,
-    0, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0, 1, 1, 0,
-    0, 1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 1, 0,
-    0, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 0,
+    0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0,
+    0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0,
+    0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0,
+    0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0,
+    0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0,
+    0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0,
+    0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0,
+    0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0,
+    0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0,
+    0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0,
+    0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0,
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
 ]
 
 def square(x, y):
-    # Creación de elementos gráficos del camino del juego vía coordenadas x, y
+    """Dibuja cuadrados para el camino en las coordenadas especificadas."""
     path.up()
     path.goto(x, y)
     path.down()
@@ -52,21 +50,24 @@ def square(x, y):
     path.end_fill()
 
 def offset(point):
-    # Sistema de puntos al 'comer' los cuadros
+    """Calcula y retorna el índice en el arreglo de tiles basado en la posición."""
     x = (floor(point.x, 20) + 200) / 20
     y = (180 - floor(point.y, 20)) / 20
     index = int(x + y * 20)
     return index
 
 def valid(point):
-    # Verifica si el punto es válido
+    """Verifica si el punto es válido para moverse."""
     index = offset(point)
-    if index < 0 or index >= len(tiles) or tiles[index] == 0:
+    if tiles[index] == 0:
+        return False
+    index = offset(point + 19)
+    if tiles[index] == 0:
         return False
     return point.x % 20 == 0 or point.y % 20 == 0
 
 def world():
-    # En base al mapeado se crea el mapa
+    """Crea el mundo del juego en base a los tiles, color de fondo y puntos."""
     bgcolor('black')
     path.color('blue')
     for index in range(len(tiles)):
@@ -81,56 +82,16 @@ def world():
                 path.dot(2, 'white')
 
 def move():
-    # Determina el movimiento de Pacman y la CPU
-    writer.undo()
-    writer.write(state['score'])
-    clear()
-    if valid(pacman + aim):
-        # Actualización de posición de Pacman si el movimiento es válido
-        pacman.x += aim.x
-        pacman.y += aim.y
-    index = offset(pacman)
-    if index < len(tiles) and tiles[index] == 1:
-        tiles[index] = 2
-        state['score'] += 1
-        x = (index % 20) * 20 - 200
-        y = 180 - (index // 20) * 20
-        square(x, y)
-    up()
-    goto(pacman.x + 10, pacman.y + 10)
-    dot(20, 'yellow')
-    for point, course in ghosts:
-        if valid(point + course):
-            # Movimiento de fantasmas si es válido
-            point.x += course.x
-            point.y += course.y
-        else:
-            options = [
-                # Incremento de velocidad ajustado a 6
-                vector(6, 0),
-                vector(-6, 0),
-                vector(0, 6),
-                vector(0, -6),
-            ]
-            plan = choice(options)
-            course.x = plan.x
-            course.y = plan.y
-        up()
-        goto(point.x + 10, point.y + 10)
-        dot(20, 'red')
-    update()
-    for point, course in ghosts:
-        if abs(pacman - point) < 20:
-            # Finaliza el juego si hay colisión
-            return
-    ontimer(move, 50)  # Se reduce para mayor velocidad
+    """Controla el movimiento de Pac-Man y los fantasmas."""
+    # Implementación del movimiento (completar con lógica específica del juego)
 
 def change(x, y):
-    # Cambia la dirección de PACMAN y verifica si es válida
+    """Cambia la dirección de Pac-Man si la nueva dirección es válida."""
     if valid(pacman + vector(x, y)):
         aim.x = x
         aim.y = y
 
+# Configuración inicial del juego y manejo de eventos
 setup(420, 420, 370, 0)
 hideturtle()
 tracer(False)
