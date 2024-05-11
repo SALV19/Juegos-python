@@ -79,7 +79,7 @@ def tap(x, y):
 tr.setup(420, 420)
 tr.hideturtle()
 tr.tracer(False)
-tr.grid()
+grid()
 tr.update()
 tr.onscreenclick(tap)
 tr.done()
